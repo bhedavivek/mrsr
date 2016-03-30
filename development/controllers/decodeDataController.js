@@ -1,0 +1,9 @@
+module.exports = function(req, res, next){
+    if(req.data!=null){
+        res.send('OK!');
+        next();
+    }
+    else{
+        next();
+    }
+}
