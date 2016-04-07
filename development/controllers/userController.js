@@ -135,8 +135,8 @@ exports.post=function(req, res){
                 }
                 var docu = data.insert;
                 docu.upload_date = new Date().toISOString();
-                docu.uploadedby = token.user_id;
-                docu.uploaderdesc = token.usertype;
+                docu['upload_info'].uploadedby = token.user_id;
+                docu['upload_info'].uploaderdesc = token.usertype;
                 var document = JSON.stringify(docu);
                 docu.report_hash = generateHash(document);
                 try{

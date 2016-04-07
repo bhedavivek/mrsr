@@ -37,8 +37,14 @@ var Name = new Schema({
 });
 
 var Property = new Schema({
-    property_name : String,
-    property_value : String,
+    property_name : {
+        type : String,
+        required : true
+    },
+    property_value : {
+        type : String,
+        required : true
+    },
     _id : false
 });
 var Test = new Schema({
@@ -52,7 +58,33 @@ var Test = new Schema({
     },
     _id : false
 });
-
+var UploadInfo = new Schema({
+    'uploadedby' : {
+        type : String,
+        required : true
+    },
+    'uploader_desc' : {
+        type : String,
+        required : true
+    },
+    'name' : {
+        type : String,
+        required : true
+    },
+    'address' : {
+        type : String,
+        required : true
+    },
+    'city':{
+        type : String,
+        required : true
+    },
+    pincode : {
+        type : Number,
+        required : true
+    },
+    _id : false
+});
 var Report = new Schema({
     'report_id' : {
         type : String,
@@ -98,12 +130,8 @@ var Report = new Schema({
         default : new Date(),
         required: true
     },
-    uploadedby : {
-        type : String,
-        required : true
-    },
-    uploaderdesc : {
-        type : String,
+    'upload_info' : {
+        type : UploadInfo,
         required : true
     }
 });
