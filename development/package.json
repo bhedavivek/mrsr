@@ -1,0 +1,32 @@
+{
+  "name": "medical-records-repo",
+  "version": "0.0.0",
+  "description": "B.E. Project for Vivek Bheda, Vivek Gupta, Yash Wagh, Pratik Mulchandani at Thadomal Shahani Engineering College",
+  "main": "server.js",
+  "dependencies": {
+    "angular": "^1.5.3",
+    "body-parser": "^1.15.0",
+    "bcrypt-nodejs": "^0.0.3",
+    "express": "^4.13.4",
+    "fs": "^0.0.2",
+    "http": "^0.0.0",
+    "jsonwebtoken": "^5.7.0",
+    "https": "^1.0.0",
+    "mongodb": "^2.1.16",
+    "mongoose": "^4.4.12",
+    "nodemon": "^1.9.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "medical",
+    "records",
+    "data",
+    "repository"
+  ],
+  "author": "Vivek Bheda",
+  "license": "ISC"
+}

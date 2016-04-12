@@ -14,8 +14,7 @@ var decodeData = require('../controllers/decodeDataController');
 
 //Single User End Points
 router.route('/user')
-    .get(userController.get);
-router.route('/user')
+    .get(userController.get)
     .post(userController.post);
 
 //Hospital Bulk Records End Points

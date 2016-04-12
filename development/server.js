@@ -29,6 +29,6 @@ app.use('/*',routes.default);
 app.disable('x-powered-by');
 
 //CREATING HTTPS SERVER
-https.createServer(options,app).listen(8001);
+app.listen(8001);
 
 console.log("Node Server(Development) is running on PORT : 8001");
