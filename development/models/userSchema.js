@@ -45,18 +45,25 @@ var Address = new Schema({
 });
 var users = new Schema(
     {
-        type : {
+        usertype : {
             type : String,
             enum : ['user', 'institution','doctor', 'admin']
         },
-        user_aadhar_id : {
-            type : Number,
+        user_aadhaar_id : {
+            type : String,
             required : true,
             unique : true
         },
         user_password : {
             type : String,
             required : true
+        },
+        institution_id : {
+            type : String,
+            unique : true
+        },
+        institution_password : {
+            type : String
         },
         doctor_registration_id : {
             type : String,
