@@ -24,7 +24,9 @@ app.use('/authenticate',routes.authenticate);
 app.use('/api',routes.api);
 
 //ROUTE TO DEFAULT ROUTER
-app.use('/*',routes.default);
+app.use('/*',function(req, res){
+    res.send("Nikki tu chutiya hai");
+});
 
 app.disable('x-powered-by');
 

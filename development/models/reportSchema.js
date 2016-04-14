@@ -101,16 +101,8 @@ var Report = new Schema({
         type : String,
         required : true
     },
-    patient_name : {
-        type : Name,
-        required : true  
-    },
     doctor_registration_id : {
         type : String,
-        required : true
-    },
-    doctor_name : {
-        type : Name,
         required : true
     },
     title : {

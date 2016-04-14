@@ -3,8 +3,9 @@
 exports.get = function(req, res){
     var mongoose = require('mongoose');
     var token = req.headers['auth-token'];
-    token = JSON.parse(token);
-    console.log(token);
+        token = JSON.parse(token);
+        console.log(token);
+    
     var db = mongoose.createConnection("mongodb://127.0.0.1/hospital");
     db.on('error', function(){
         console.error.bind(console, 'connection error:');
@@ -25,7 +26,7 @@ exports.get = function(req, res){
                 if(err){
                     console.log(err);
                     db.close();
-                    res.status(500).json({'error':'Oops something went wrong'});
+                    res.status(500).json({'success':false,'error':'Oops something went wrong'});
                 }
                 else{
                     if(doc.length != 0){
@@ -49,9 +50,11 @@ exports.post=function(req, res){
     }
     catch(e){
         res.status(400).json({"error":"Auth-Token invalid"});
+        return;
     }
     if(!req.body.data){
         res.status(911).json({'error':'No Data Posted'});
+        return;
     }
     var data = req.body.data;
     console.log(token);
@@ -105,7 +108,7 @@ exports.post=function(req, res){
                             if(err){
                                 console.log(err);
                                 db.close();
-                                res.status(500).json({'error':'Oops something went wrong'});
+                                res.status(500).json({'success':false,'error':'Oops something went wrong'});
                             }
                             else{
                                 if(doc.length != 0){
@@ -149,9 +152,9 @@ exports.post=function(req, res){
                     db.once('open', function(){
                         var reportSchema = require('../models/reportSchema');
                         var Report = db.model('reports', reportSchema);
-                        Report.collection.insert(docu,function(err,docs){
+                        Report(docu).save(function(err,docs){
                             if(!err){
-                                res.json({'success': true, 'message': 'Report successfully added'});   
+                                res.json({'success': true, 'message': 'Report successfully added', "report_id": docs.report_id});   
                             }
                             else{
                                 console.log(err);
@@ -162,7 +165,7 @@ exports.post=function(req, res){
                     });
                 }
                 catch(e){
-                    res.status(500).json({"error": "Oops! something went wrong"});
+                    console.log(e);
                 }
             }
             else{
@@ -172,12 +175,52 @@ exports.post=function(req, res){
         break;
         //ADMIN UPDATE
         case 'update':
+            if(token.usertype=="admin"){
+                res.status(400).json({"error": "Invalid Operation"});
+            }
+            else{
+                res.status(400).json({"error":"Insufficient priviledges"});
+            }
+        
         break;
         //ADMIN DELETE
         case 'delete':
+            if(token.usertype=="admin"){
+                
+                try{
+                    var mongoose = require('mongoose');
+                    var db = mongoose.createConnection("mongodb://127.0.0.1/hospital");
+                    db.on('error', function(){
+                        console.error.bind(console, 'connection error:');
+                    });
+                    db.once('open', function(){
+                        var reportSchema = require('../models/reportSchema');
+                        var Report = db.model('reports', reportSchema);
+                        Report.findOne({"report_id":data.delete.report_id}, function(err,doc){
+                            if(!doc){
+                                res.json({"Success":false, "error":"Report does not exist"});
+                            }
+                            else{
+                                Report.remove({"report_id":data.delete.report_id}, function(err){
+                                    if(!err){
+                                         res.json({"success":true, "error":"Report(ID : "+data.delete.report_id+") was successfully removed"});
+                                    }
+                                });
+                            }
+                        });
+                    });
+                }
+                catch(e){
+                    console.log(e);
+                }
+               
+            }
+            else{
+                res.status(400).json({"error":"Insufficient priviledges"});
+            }
         break;
         default:
-        res.status(400).json({"error": "Invalid Operation"});
+            res.status(400).json({"error": "Invalid Operation"});
         break;
     }
 };
