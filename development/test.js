@@ -1,52 +1,29 @@
-//var createHash = require('./scripts/Hash');
-var generateHash = require('./scripts/Hash');
-var docu ={
-                        "title" : "Stool Examination",
-                        "patient_aadhaar_id":"2",
-                        "patient_name":{
-                            "first_name":"Vivek",
-                            "last_name":"Bheda"
-                        },
-                        'doctor_name':{
-                            "first_name":"Hansa",
-                            "last_name":"Bheda"
-                        },
-                        "doctor_registration_id":"1",
-                        "tests" : [
-                                {
-                                        "test_name" : "Australia antigen (HbsAg) RAPID",
-                                        "test_properties" : [
-                                                {
-                                                        "property_name" : "Result",
-                                                        "property_value" : "Positive"
-                                                }
-                                        ]
-                                }
-                        ],
-                        "report_date": '2016-03-30T09:01:16.151Z',
-                        "upload_info" : {
-                            "uploadedby" : "1",
-                            "uploader_desc" : "doctor",
-                            "name" : "Shruti Medical Labratory",
-                            "address" : "Shruti Medical Labratory, Juhu, Mumbai",
-                            "city" : "Mumbai",
-                            "pincode" : 400048
-                        }
-                        };
+var express = require('express');
+var bodyParser = require('body-parser');
+var https = require('https');
+var app = express();
+var router = express.Router();
+var routes = require('./routes/index');
+var config = require('./config/config')
 
-var mongoose = require('mongoose');
-var db = mongoose.createConnection("mongodb://127.0.0.1/hospital");
-                    db.on('error', function(){
-                        console.error.bind(console, 'connection error:');
-                    });
-                    docu.report_hash = generateHash(JSON.stringify(docu));
-                    db.once('open', function(){
-                        var reportSchema = require('./models/reportSchema');
-                        var Report = db.model('reports', reportSchema);
-                        Report(docu).save(function(err){
-                            if(err){
-                                console.log(err);
-                            }
-                            db.close();
-                        });
-                    });
+//HTTPS OPTIONS
+var options = {
+    cert : config.certificate,
+    key : config.private
+}
+
+app.use(bodyParser.urlencoded({extended : true}));
+app.use(bodyParser.json());
+
+//ROUTE TO DEFAULT ROUTER
+app.post('/*',function(req, res){
+    console.log(req.body);
+    res.json(req.body);
+});
+
+app.disable('x-powered-by');
+
+//CREATING HTTPS SERVER
+app.listen(3000);
+
+console.log("Node Server(Development) is running on PORT : 8001");
