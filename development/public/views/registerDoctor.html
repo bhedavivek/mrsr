@@ -46,7 +46,7 @@
     </form>
     
     <form class="col-md-offset-1 col-md-10" role="form">
-        <legend>doctor Details</legend>
+        <legend>User Details</legend>
         <div class="form-group col-md-2" style="padding-left:0px; text-align:middle;">
             <label class="control-label">Prefix</label>
             <select class="form-control" ng-model="registerdoctor.name.prefix" ng-value="{{type}}" required>
@@ -128,7 +128,7 @@
     </form>
     <form class="form col-md-offset-1 col-md-10">
         <div class="form-group">
-            <button type="button" ng-click="register()" class="btn btn-primary">Submit</button>
+            <button type="button" ng-click="registerDoctor()" class="btn btn-primary">Submit</button>
         </div>
     </form>
     {{error}}

@@ -15,6 +15,9 @@ app.config(function($routeProvider){
     .when('/register/user',{
         templateUrl : '../views/registerUser.html'
     })
+    .when('/register/doctor',{
+        templateUrl : '../views/registerDoctor.html'
+    })
     .when('/reports',{
         resolve : {
             'check' : function($location, $rootScope, $cookies){

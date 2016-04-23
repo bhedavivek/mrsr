@@ -6,9 +6,25 @@ exports.post = function(req, res){
     });
     db.once('open', function(){
         console.log(req.body);
-        var userSchema = require('../models/userSchema');
-        var User = db.model('users', userSchema);
-        User(req.body).save(function(err, doc){
+        var schema;
+        var model;
+        switch(req.body.usertype){
+            case 'user':
+                schema = require('../models/userSchema');
+                model = db.model('users', schema);
+            break;
+            case 'doctor':
+                schema = require('../models/doctorSchema');
+                model = db.model('doctors', schema);
+            break;
+            case 'institution':
+                schema = require('../models/institutionSchema');
+                model = db.model('insitutions', schema);
+            break;
+            default : res.status(400).end();
+                return;
+        }
+        model(req.body).save(function(err, doc){
             if(!err){
                 res.json(doc);
             }
