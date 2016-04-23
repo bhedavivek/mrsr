@@ -20,8 +20,27 @@ exports.get = function(req, res){
         var report = db.model('reports', reportSchema);
         
         //NORMAL USER REQUEST FOR OWN RECORDS ONLY
-        if(token.usertype == 'user'){
-            report.find({'patient_aadhaar_id' : ''+token.user_id},'-_id -report_hash -uploadedby -uploaderdesc -__v',function(err, doc){
+        if(token.usertype == 'user' && req.report_id){
+            report.findOne({'patient_aadhaar_id' : ''+token.user_id, 'report_id': req.report_id},'-_id -report_hash -uploadedby -uploaderdesc -__v',{sort : {upload_date : -1}},function(err, doc){
+                if(err){
+                    console.log(err);
+                    db.close();
+                    res.status(500).json({'success':false,'error':'Oops something went wrong'});
+                }
+                else{
+                    if(doc.length != 0){
+                        res.status(200).json({'result' : doc});
+                        db.close();
+                    }
+                    else{
+                        res.status(204).json({'result' : 'No records in system'});
+                        db.close();
+                    }
+                }
+            });
+        }
+        else if(token.usertype == 'user'){
+            report.find({'patient_aadhaar_id' : ''+token.user_id},'-_id -report_hash -uploadedby -uploaderdesc -__v',{sort : {upload_date : -1}},function(err, doc){
                 if(err){
                     console.log(err);
                     db.close();

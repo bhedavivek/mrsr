@@ -43,11 +43,20 @@ var Address = new Schema({
        required : true
    }
 });
+var Contact = new Schema({
+    primary : {
+        type : String,
+        required : true
+    },
+    secondary : {
+        type : String
+    }
+});
 var users = new Schema(
     {
         usertype : {
             type : String,
-            enum : ['user', 'institution','doctor', 'admin']
+            default : 'user'
         },
         user_aadhaar_id : {
             type : String,
@@ -58,31 +67,19 @@ var users = new Schema(
             type : String,
             required : true
         },
-        institution_id : {
-            type : String,
-            unique : true
-        },
-        institution_password : {
-            type : String
-        },
-        doctor_registration_id : {
-            type : String,
-            unique : true
-        },
-        doctor_password : {
-            type : String
-        },
-        admin_id : {
-            type : String,
-            unique : true
-        },
-        admin_password : {
-            type : String
-        },
-        user_email : {
+        email : {
             type : String,
             required : true,
             unique : true
+        },
+        sex : {
+            type : String,
+            default : 'secret',
+            enum : ['male', 'female', 'secret']  
+        },
+        contact_number : {
+            type : Contact,
+            required : true
         },
         name : {
             type : Name,
@@ -96,7 +93,11 @@ var users = new Schema(
             type : Date,
             required : true
         },
-        
+        verified : {
+            type : Boolean,
+            default : false,
+            required : true
+        }
     }
 );
 module.exports = users;

@@ -1,0 +1,136 @@
+<div class="navbar navbar-default navbar-fixed-top" ng-if="!$root['auth-token']" ng-controller="loginController">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span> 
+    </button>
+    <div class="container-fluid collapse navbar-collapse" id="myNavbar">
+        <form class="navbar-form navbar-right">
+            <div class="form-group">
+                <label>Usertype</label>
+                <select class="form-control input-sm" ng-model="loginuser.usertype">
+                    <option ng-repeat="type in usertypes" value="{{type}}">{{type}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="nav_user_id">User ID</label>
+                <input type="text" id="nav_user_id" class="form-control input-sm" ng-model="loginuser.user_id"></input>
+            </div>
+            <div class="form-group">
+                <label for="nav_user_password">User Password</label>
+                <input type="password" id="nav_user_password" class="form-control input-sm" ng-model="loginuser.user_password"></input>
+            </div>
+            <div class="form-group" style="padding:3px">
+                <button type="button" class="btn btn-default btn-sm" ng-click="login()">Login</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div ng-controller="registrationController" class="col-md-offset-1 col-md-10 jumbotron">
+    <div class="container" style="padding-top : 10%;">
+    <h1 class="col-md-offset-1">Register</h1>
+    <br>
+    <form role="form" class="col-md-offset-1">
+        <div class="form-group col-md-7" >
+            <label for="doctor_id" class="control-label">Doctor Registration Number</label>
+            <input type="text" class="form-control" ng-model="registerdoctor.doctor_registration_id" placeholder="doctor ID" required></input>
+        </div>
+        <div class="form-group col-md-7">
+            <label for="doctor_password" class="control-label">Password</label>
+            <input type="password" class="form-control" ng-model="registerdoctor.doctor_password" id="doctor_password" placeholder="Password" required></input>
+        </div>
+        <div class="form-group col-md-7">
+            <label for="doctor_password_2" class="control-label">Confirm Password</label>
+            <input type="password" class="form-control" ng-model="registerdoctor.doctor_password_2" id="doctor_password_2" placeholder="Password" required></input>
+        </div>
+    </form>
+    
+    <form class="col-md-offset-1 col-md-10" role="form">
+        <legend>doctor Details</legend>
+        <div class="form-group col-md-2" style="padding-left:0px; text-align:middle;">
+            <label class="control-label">Prefix</label>
+            <select class="form-control" ng-model="registerdoctor.name.prefix" ng-value="{{type}}" required>
+                <option ng-repeat="type in prefixes" value="{{type}}">{{type}}</option>
+            </select>
+        </div>
+    </form>
+    <form class="form col-md-offset-1 col-md-10">
+        <div class="form-group col-md-4" style="padding-left: 0px;">
+            <label for="doctor_first_name" class="control-label">First Name</label>
+            <input type="text" class="form-control" ng-model="registerdoctor.name.first_name" id="doctor_first_name" placeholder="First Name" required></input>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="doctor_middle_name" class="control-label">Middle Name</label>
+            <input type="text" class="form-control" ng-model="registerdoctor.name.middle_name" id="doctor_middle_name" placeholder="Middle Name"></input>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="doctor_last_name" class="control-label">Last Name</label>
+            <input type="text" class="form-control" ng-model="registerdoctor.name.last_name" id="doctor_last_name" placeholder="Last Name" required></input>
+        </div>
+    </form>
+    <form class="form col-md-offset-1 col-md-10">
+        <div class="form-group col-md-2" style="padding-left: 0px;">
+            <label class="control-label">Suffix</label>
+            <select ng-model = "registerdoctor.name.suffix" class="form-control">
+                    <option ng-repeat="suffix in suffixes" value="{{suffix}}">{{suffix}}</option>
+            </select>
+        </div>
+    </form>
+    <form class="form col-md-offset-1 col-md-10">
+        <div class="form-group col-md-4" style="padding-left: 0px;">
+            <label class="control-label">Date of Birth</label>
+            <input type="date" ng-model="registerdoctor.dob" class="form-control" required></input>
+        </div>
+        <div class="form-group col-md-8">
+            <legend>Sex</legend>
+            <div class="radio">
+                <label class="control-label"><input type="radio" ng-model="registerdoctor.sex" name="doctor_sex" value="male">Male</input></label>
+            </div>
+            <div class="radio">
+                <label class="control-label"><input type="radio" ng-model="registerdoctor.sex" name="doctor_sex" value="female">Female</input></label>
+            </div> 
+        </div>
+    </form>
+    <form role="form" class="form-horizontal col-md-offset-1 col-md-5">
+        <legend>Contact Information</legend>
+        <div class="form-group col-md-12">
+            <label class="control-label">Primary Contact Number : </label>
+            <input type="text"  class = "form-control" placeholder="Primary Contact Number" ng-model="registerdoctor.contact_number.primary"></input>
+            <label class="control-label">Secondary Contact Number : </label>
+            <input type="text"  class = "form-control"></input>
+        </div>
+        <div class="form-group col-md-12">
+            <label class="control-label">E-Mail</label>
+            <input type="email" ng-model = "registerdoctor.email" placeholder="email@email.com" class="form-control" id="doctor_email" required></input>
+        </div>
+    </form>
+    <form class="form col-md-offset-1 col-md-10">
+        <legend>Address</legend>
+        <div class="form-group">
+            <textarea class="form-control" ng-model="registerdoctor.address.address" placeholder="Residential Address..." rows="4"></textarea>
+        </div>
+        <div class="form-group col-md-3" style="padding-left: 0px;">
+            <label class="control-label">Pincode</label>
+            <input type="number" ng-model="registerdoctor.address.zipcode" class="form-control"></input>
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label">City</label>
+            <input type="text" ng-model="registerdoctor.address.city" class="form-control"></input>
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label">State</label>
+            <input type="text" ng-model="registerdoctor.address.state" class="form-control"></input>
+        </div>
+        <div class="form-group col-md-3" style="padding-left: 0px;">
+            <label class="control-label">Country</label>
+            <input type="text" class="form-control" ng-model="registerdoctor.address.country" placeholder="India"></input>
+        </div>
+    </form>
+    <form class="form col-md-offset-1 col-md-10">
+        <div class="form-group">
+            <button type="button" ng-click="register()" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+    {{error}}
+    </div>
+</div>

@@ -1,0 +1,87 @@
+<div class="navbar navbar-default navbar-fixed-top" ng-if="!$root['auth-token']" ng-controller="loginController">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span> 
+    </button>
+    <div class="container-fluid collapse navbar-collapse" id="myNavbar">
+        <form class="navbar-form navbar-right">
+            <div class="form-group">
+                <label>Usertype</label>
+                <select class="form-control input-sm" ng-model="loginuser.usertype">
+                    <option ng-repeat="type in usertypes" value="{{type}}">{{type}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="nav_user_id">User ID</label>
+                <input type="text" id="nav_user_id" class="form-control input-sm" ng-model="loginuser.user_id"></input>
+            </div>
+            <div class="form-group">
+                <label for="nav_user_password">User Password</label>
+                <input type="password" id="nav_user_password" class="form-control input-sm" ng-model="loginuser.user_password"></input>
+            </div>
+            <div class="form-group" style="padding:3px">
+                <button type="button" class="btn btn-default btn-sm" ng-click="login()">Login</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="jumbotron">
+    <div class="container" style="padding-top : 10%;">
+    <h1>Register</h1>
+    <div class="panel panel-default">
+        <div class="panel-heading btn btn-block btn-info" data-target="#register_user" data-toggle="collapse" style="text-align:left;">
+                <span style="font-size:200%;position:left;">User</span>
+                <span class="glyphicon glyphicon-align-left glyphicon-chevron-down" aria-hidden="false" style="text-align:right;position:right;"></span>
+        </div>
+        <div class="panel-body collapse in" id="register_user">
+            <div>
+                Lorem ipsum dolor sit amet, partem persecuti te mei, tibique pertinax et quo. Dicta altera sit no, ad omnium omittam definitionem sed. Quo assum fabellas ex. Eam ut populo periculis, ei falli homero laboramus mei. Munere facete has ad. Vis ipsum inermis eu.
+
+                Saperet detracto ad quo. Mei ea dicunt aliquip. Eu invidunt singulis duo. No audiam maluisset duo, no sea sumo porro aeque, facete option pri et. Ea sed aperiri tamquam liberavisse.
+
+                Ne labores tibique sapientem nam, in dicat quaeque copiosae cum, an integre voluptua eam. Ei duo dolorum postulant. His et diam homero imperdiet, at putent sententiae vel. Epicurei perpetua ius ne, qui modus ubique qualisque cu.
+            </div>
+            <div class="container" style="padding:10px;">
+                <a ng-href="#/register/user" class="btn btn-default">Register New User</a>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading btn btn-block btn-info" data-target="#register_doctor" data-toggle="collapse" style="text-align:left;">
+                <span style="font-size:200%;">Doctor</span>
+                <span class="glyphicon glyphicon-align-left glyphicon-chevron-down" area-hidden="true" style="text-align:right;"></span>
+        </div>
+        <div class="panel-body collapse" id="register_doctor">
+            <div>
+                Lorem ipsum dolor sit amet, partem persecuti te mei, tibique pertinax et quo. Dicta altera sit no, ad omnium omittam definitionem sed. Quo assum fabellas ex. Eam ut populo periculis, ei falli homero laboramus mei. Munere facete has ad. Vis ipsum inermis eu.
+
+                Saperet detracto ad quo. Mei ea dicunt aliquip. Eu invidunt singulis duo. No audiam maluisset duo, no sea sumo porro aeque, facete option pri et. Ea sed aperiri tamquam liberavisse.
+
+                Ne labores tibique sapientem nam, in dicat quaeque copiosae cum, an integre voluptua eam. Ei duo dolorum postulant. His et diam homero imperdiet, at putent sententiae vel. Epicurei perpetua ius ne, qui modus ubique qualisque cu.
+            </div>
+            <div class="container" style="padding:10px;">
+                <a ng-href="#/register/doctor" class="btn btn-default">Register New Doctor</a>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading btn btn-block btn-info" data-target="#register_institution" data-toggle="collapse" style="text-align:left;">
+                <span style="font-size:200%;">Institution</span>
+                <span class="glyphicon glyphicon-align-left glyphicon-chevron-down" area-hidden="true" style="text-align:right;"></span>
+        </div>
+        <div class="panel-body collapse" id="register_institution">
+            <div>
+                Lorem ipsum dolor sit amet, partem persecuti te mei, tibique pertinax et quo. Dicta altera sit no, ad omnium omittam definitionem sed. Quo assum fabellas ex. Eam ut populo periculis, ei falli homero laboramus mei. Munere facete has ad. Vis ipsum inermis eu.
+
+                Saperet detracto ad quo. Mei ea dicunt aliquip. Eu invidunt singulis duo. No audiam maluisset duo, no sea sumo porro aeque, facete option pri et. Ea sed aperiri tamquam liberavisse.
+
+                Ne labores tibique sapientem nam, in dicat quaeque copiosae cum, an integre voluptua eam. Ei duo dolorum postulant. His et diam homero imperdiet, at putent sententiae vel. Epicurei perpetua ius ne, qui modus ubique qualisque cu.
+            </div>
+            <div class="container" style="padding:10px;">
+                <a ng-href="#/register/institution" class="btn btn-default">Register New Institution</a>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>

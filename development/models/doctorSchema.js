@@ -1,0 +1,103 @@
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+var Name = new Schema(
+    {
+        first_name : {
+            type : String,
+            required : true
+        },
+        last_name  : {
+            type : String,
+            required: true
+        },
+        middle_name : {
+            type : String 
+        },
+        suffix : {
+            type : String
+        },
+        prefix : {
+            type : String
+        }
+    }
+);
+var Address = new Schema({
+    address : {
+      type : String,
+      required : true  
+    },
+   city : {
+       type : String,
+       required : true
+   },
+   state : {
+       type : String,
+       required : true,
+   },
+   zipcode : {
+       type : Number,
+       required : true
+   },
+   country : {
+       type : String,
+       required : true
+   }
+});
+var Contact = new Schema({
+    primary : {
+        type : String,
+        required : true
+    },
+    secondary : {
+        type : String
+    }
+});
+var doctor = new Schema(
+    {
+        usertype : {
+            type : String,
+            default: 'doctor'
+        },
+        doctor_registration_id : {
+            type : String,
+            required : true,
+            unique : true
+        },
+        doctor_password : {
+            required : true,
+            type : String
+        },
+        email : {
+            type : String,
+            required : true,
+            unique : true
+        },
+        sex : {
+            type : String,
+            default : 'secret',
+            enum : ['male', 'female', 'secret']  
+        },
+        contact_number : {
+            type : Contact,
+            required : true
+        },
+        name : {
+            type : Name,
+            required : true
+        },
+        address : {
+            type : Address,
+            required : true
+        },
+        dob : {
+            type : Date,
+            required : true
+        },
+        verified : {
+            type : Boolean,
+            default : false,
+            required : true
+        }
+    }
+);
+module.exports = doctor;

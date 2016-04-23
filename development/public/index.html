@@ -1,32 +1,31 @@
 <!DOCTYPE HTML>
-<HTML ng-app>
-    <HEAD>
+<html lang="en" ng-app="hospitalApp">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="lib/angular/angular.min.js"></script>
+        <script src="lib/angular-cookies/angular-cookies.js"></script>
+        <script src="lib/angular-route/angular-route.min.js"></script>
+        <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css"></link>
+        <link rel="stylesheet" href="src/bootstrap.min.css"></link>
+        <script src="lib/jquery/dist/jquery.min.js"></script>
+        <script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        <style>
+            .list-group-horizontal .list-group-item {
+                display : inline-block;
+            }
+            .well-inline {
+                 display : inline-block;
+                 font-size: 124%;
+                 font-weight: bold;
+            }
+        </style>
         
-        <title>
-            HealthCare Application
-        </title>
-        
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
-        
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-        
-    </HEAD>
-    <BODY>
-        <div class="container" ng-controller="app_controller">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Username</th><th>Password</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-    </BODY>
-</HTML>
+    </head>
+    <body>
+        <div ng-view class="container-fluid" style="padding-left : 0; padding-right:0;"></div>
+    </body>
+    <script src="src/app.js"></script>
+    <script src="src/registrationController.js"></script>
+    <script src="src/loginController.js"></script>
+    <script src="src/reportController.js"></script>
+</html>

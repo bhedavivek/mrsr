@@ -12,8 +12,15 @@ var options = {
     key : config.private
 }
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.use(bodyParser.urlencoded({extended : true}));
-app.use(bodyParser.json());
+app.use(bodyParser.json())
+.use(express.static('./public'));
 
 app.use('/admin', routes.admin);
 
@@ -23,9 +30,11 @@ app.use('/authenticate',routes.authenticate);
 //ROUTE TO API ROUTER
 app.use('/api',routes.api);
 
+app.use('/register', routes.register);
+
 //ROUTE TO DEFAULT ROUTER
 app.use('/*',function(req, res){
-    res.send("Nikki tu chutiya hai");
+        res.redirect('/');
 });
 
 app.disable('x-powered-by');

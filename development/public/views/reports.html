@@ -1,0 +1,70 @@
+<div class="navbar navbar-default navbar-fixed-top" ng-if="$root['auth-token'].usertype == 'user'" ng-controller="loginController">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span> 
+    </button>
+    <div class="container-inline collapse navbar-collapse" id="myNavbar">
+        <span class="container-inline">
+                <ul class="nav navbar-nav navbar-left">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#/profile">Profile</a></li> 
+                    <li><a href="#/reports">Reports</a></li> 
+                </ul>
+        </span>
+        <span class="container-inline">
+            <form class="navbar-form navbar-right" >
+                <div class="form-group">
+                    <input type="button" class="btn btn-default btn-sm" ng-click="logout()" value="Logout" style="margin-right:10px;"></input>
+                </div>
+            </form>
+        </span>
+    </div>
+</div>
+<div class="jumbotron" ng-controller="reportController">
+    <div class="container" style="padding-top : 10%;">
+    <h1>Reports</h1>
+    <div class="panel panel-default" ng-repeat="report in reports">
+        <div class="panel-heading btn btn-block btn-info" data-target="#report_{{report.report_id}}" data-toggle="collapse" style="text-align:left; overflow : hidden; overflow-wrap : break-word;">
+            <h3>
+                <span class="glyphicon glyphicon-align-left glyphicon-chevron-down" aria-hidden="false"></span>
+                <span>#{{report.report_id}} : </span>
+                <span>{{report.title}}</span>
+            </h3>
+        </div>
+        <div class="panel-body collapse" id="report_{{report.report_id}}">
+            <div class="panel panel-default" ng-repeat="test in report.tests">
+                <div class="panel-heading" style="overflow : hidden; overflow-wrap : break-word;">
+                    <h4>Test : {{test.test_name}}</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="panel panel-default" ng-repeat="property in test.test_properties" style="padding : 1px; border : none; display : inline-block; min-width: 25%;">
+                        <div class="panel-heading" style="margin-top:10px;">
+                            <h5>{{property.property_name}}</h5>
+                        </div>
+                        <div class="panel-body" style="border : 1px solid transparent; border-color:#464545;">
+                            {{property.property_value}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <ul class="list-group list-group-horizontal">
+                <li class="list-group-item">
+                    <span>Report Date : {{report.report_date | date: 'dd/MM/yyyy'}}</span>
+                </li>
+                <li class="list-group-item">
+                    <span>Last Updated On : {{report.upload_date | date: 'dd/MM/yyyy'}}</span>
+                </li>
+                <li class="list-group-item">
+                    <span>Report ID : {{report.report_id}}</span>
+                </li>
+                <li class="list-group-item">
+                    <span>Uploaded By : {{report.upload_info.name}}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </div>
+</div>

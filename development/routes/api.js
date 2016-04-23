@@ -16,7 +16,12 @@ var decodeData = require('../controllers/decodeDataController');
 router.route('/user')
     .get(userController.get)
     .post(userController.post);
-
+router.param('report_id', function(req, res, next, report_id){
+   req.report_id = report_id;
+   next(); 
+});
+router.route('/user/:report_id')
+    .get(userController.get);
 //Hospital Bulk Records End Points
 router.route('/reports')
     .get(function(req, res){
