@@ -14,6 +14,8 @@ var doctorController = require('../controllers/doctorController');
 //API END POINTS
 
 //Single User End Points
+router.route('/user/profile')
+    .get(userController.getProfile)
 router.route('/user')
     .get(userController.get)
     .post(userController.post);

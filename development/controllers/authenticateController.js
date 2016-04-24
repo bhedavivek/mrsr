@@ -11,7 +11,7 @@ exports.post = function(req, res){
             case 'doctor':
                 authenticateDoctor(req, res);
             break;
-            case 'institution':
+            case 'hospital':
                 authenticateInstitution(req, res);
             break;
             case 'admin':
@@ -53,7 +53,7 @@ function authenticateUser(req, res){
             }
             else if(doc==null){
                 console.log('User not found');
-                res.status(403).end();   
+                res.json({success : false});      
             }
             else{
                 console.log(doc);
@@ -95,7 +95,7 @@ function authenticateDoctor(req, res){
             }
             else if(doc==null){
                 console.log('User not found');
-                res.status(403).end();   
+                res.json({success : false});      
             }
             else{
                 console.log(doc);
@@ -129,7 +129,7 @@ function authenticateInstitution(req, res){
     db.once('open', function(){
         var institutionSchema = require('../models/institutionSchema');
         var Institution = db.model('institutions',institutionSchema);
-        Insitution.findOne({"institution_id" : req.body.user_id},'institution_password institution_id', function(err, doc){
+        Institution.findOne({"institution_id" : req.body.user_id},'institution_password institution_id', function(err, doc){
             console.log('4');
             if(err){
                 console.log(err);
@@ -137,7 +137,7 @@ function authenticateInstitution(req, res){
             }
             else if(doc==null){
                 console.log('User not found');
-                res.status(403).end();   
+                res.json({success : false});   
             }
             else{
                 console.log(doc);
@@ -172,7 +172,7 @@ function authenticateAdmin(req, res){
     db.once('open', function(){
         var adminSchema = require('../models/adminSchema');
         var Admin = db.model('users',adminSchema);
-        User.findOne({"admin_id" : req.body.user_id},'admin_password admin_id', function(err, doc){
+        Admin.findOne({"admin_id" : req.body.user_id},'admin_password admin_id', function(err, doc){
             console.log('4');
             if(err){
                 console.log(err);
@@ -180,7 +180,7 @@ function authenticateAdmin(req, res){
             }
             else if(doc==null){
                 console.log('User not found');
-                res.status(403).end();   
+                res.json({success : false});      
             }
             else{
                 console.log(doc);

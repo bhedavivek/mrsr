@@ -52,6 +52,16 @@ var Contact = new Schema({
         type : String
     }
 });
+var ReportToken = new Schema({
+    report_id : {
+        type : String,
+        required : true
+    },
+    report_token : {
+        type : String,
+        required : true
+    }
+});
 var users = new Schema(
     {
         usertype : {
@@ -92,6 +102,9 @@ var users = new Schema(
         dob : {
             type : Date,
             required : true
+        },
+        report_tokens : {
+            type : [ReportToken],
         },
         verified : {
             type : Boolean,

@@ -1,4 +1,110 @@
-
+exports.getProfile = function(req, res){
+    var mongoose = require('mongoose');
+    var token;
+    try{
+        token = JSON.parse(req.headers['auth-token']);
+    }
+    catch(e){
+        res.status(400).json({"error":"Auth-Token invalid"});
+        return;
+    }
+    var db = mongoose.createConnection("mongodb://127.0.0.1/hospital");
+    db.on('error', function(){
+        console.error.bind(console, 'connection error:');
+        console.log('Connection error');
+        res.status(403);
+        res.json({
+            success : false,
+            error : 'Connection error'
+        });
+    });
+    db.once('open',function(){
+        var schema;
+        var model;
+        switch(token.usertype){
+            case 'doctor':
+            
+                schema = require('../models/doctorSchema');
+                model = db.model('doctors', schema);
+                model.findOne({'doctor_registration_id':token.user_id},'email sex contact_number name address dob verified',function(err, doc){
+                    if(!err){
+                        if(doc!=null){
+                            res.json(
+                                {
+                                    success : true,
+                                    result : doc
+                                });
+                        }
+                        else{
+                            res.json({success : false});
+                        }
+                        res.status(500).end();
+                    }
+                });
+            break;
+            case 'user' : 
+                schema = require('../models/userSchema');
+                model = db.model('users', schema);
+                model.findOne({'user_aadhaar_id':token.user_id},'email sex contact_number name address dob verified report_tokens', function(err, doc){
+                    if(!err){
+                        if(doc!=null){
+                            res.json(
+                                {
+                                    success : true,
+                                    result : doc
+                                });
+                        }
+                        else{
+                            res.json({success : false});
+                        }
+                        res.status(500).end();
+                    }
+                });
+            break;
+            case 'hospital' :
+                schema = require('../models/institutionSchema');
+                model = db.model('institutions', schema);
+                model.findOne({'institution_id':token.user_id},'email contact_number name address dob verified', function(err, doc){
+                    if(!err){
+                        if(doc!=null){
+                            res.json(
+                                {
+                                    success : true,
+                                    result : doc
+                                });
+                        }
+                        else{
+                            res.json({success : false});
+                        }
+                        res.status(500).end();
+                    }
+                });
+            break;
+            case 'admin':
+                schema = require('../models/adminSchema');
+                model = db.model('admins', schema);
+                model.findOne({'admin_id':token.user_id},'email sex contact_number name address dob verified', function(err, doc){
+                    if(!err){
+                        if(doc!=null){
+                            res.json(
+                                {
+                                    success : true,
+                                    result : doc
+                                });
+                        }
+                        else{
+                            res.json({success : false});
+                        }
+                        res.status(500).end();
+                    }
+                });
+            break;
+            default : res.status(403).end();
+            return;
+        }
+        
+    });
+}
 
 exports.get = function(req, res){
     var mongoose = require('mongoose');
