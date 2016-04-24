@@ -1,0 +1,33 @@
+<div class="jumbotron">
+    <div class="container" ng-if="$root['auth-token'].usertype !='user'">
+        <h1>Search</h1>
+        <ng-form role="form" class="col-md-10">
+            <table class="table table-striped table-hover">
+                <tr class="form-group">
+                    <td>
+                        <label for="patient_id" class="control-label">Patient Aadhaar ID</label>
+                    </td>
+                    <td>
+                        <input type="text" ng-model="searchreports.user_id" id="patient_id" required></input>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="report_title" class="control-label">Report Title</label>
+                    </td>
+                    <td>
+                        <input type="text" ng-model="searchreports.title" id="report_title" style="width:100%;" required></input>
+                    </td>
+                </tr>
+                <tr class="form-group">
+                    <td>
+                        <label for="patient_id" class="control-label">Patient Aadhaar ID</label>
+                    </td>
+                    <td>
+                        <input type="text" ng-model="searchreports.user_id" id="patient_id" required></input>
+                    </td>
+                </tr>
+            </table>
+        </ng-form>
+    </div>
+</div>

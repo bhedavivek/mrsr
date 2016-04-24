@@ -44,6 +44,19 @@ app.config(function($routeProvider){
         },
         templateUrl : '../views/reports.html'
     })
+    .when('/reports/search',{
+        resolve : {
+            'check' : function($location, $rootScope, $cookies){
+                if(!$cookies.getObject('auth-token')){
+                    $location.path("/login");
+                }
+                else if($cookies.getObject('auth-token')){
+                    $rootScope['auth-token']=$cookies.getObject('auth-token');
+                }
+            }  
+        },
+        templateUrl : '../views/searchReports.html'
+    })
     .when('/reports/:report_id',{
         resolve : {
             'check' :function($location, $rootScope, $cookies){

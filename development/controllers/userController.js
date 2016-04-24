@@ -190,37 +190,54 @@ exports.post=function(req, res){
          //DOCTOR SEARCH
         case 'get':
             var query = {};
-            
+            query['$and']=[];
+            var query1=[];
             //PATIENT AADHAAR ID IS COMPULSARY
             if(req.body.data.get.doctor_id){
-                query.doctor_registration_id = req.body.data.get.doctor_id;
+                var obj={};
+                obj.doctor_registration_id = req.body.data.get.doctor_id;
+                query1.push(obj);
             }
             else{
                 if(!req.body.data.get.user_id){
                     res.status(200).json({'error': 'User ID required'});
                     return;
                 }
+                else{
+                    var obj = {};
+                    obj.patient_aadhaar_id= req.body.data.get.user_id;
+                    query1.push(obj);
+                }
             }
             
             
             //SET SEARCH PARAMETERS
             if(req.body.data.get.report_title){
-                query.title = req.body.data.get.report_title;
+                var obj = {};
+                obj.title = req.body.data.get.report_title;
+                query1.push(obj);
             }
             if(req.body.data.get.doctor_id){
-                query.doctor_registration_id = req.body.data.get.doctor_id;
+                var obj = {};
+                obj.doctor_registration_id = req.body.data.get.doctor_id;
+                query1.push(obj);
             }
             if(req.body.data.get.test_name){
+                var obj = {};
                 console.log(req.body.data.get.test_name);
-                query['tests.test_name'] = req.body.data.get.test_name;
+                obj['tests.test_name'] = req.body.data.get.test_name;
+                query1.push(obj);
             }
+            if(req.body.data.get.start_searchdate || req.body.data.get.end_searchdate){
+            var obj={};
+            obj.report_date = {};
             if(req.body.data.get.start_searchdate){
-                query.report_date = {};
-                query.report_date.$gt = new Date(req.body.data.get.start_searchdate).toISOString();
+                obj.report_date.$gte = new Date(req.body.data.get.start_searchdate).toISOString();
             }
             if(req.body.data.get.end_searchdate){
-                query.report_date = {};
-                query.report_date.$lt = new Date(req.body.data.get.end_searchdate).toISOString();
+                obj.report_date.$lte = new Date(req.body.data.get.end_searchdate).toISOString();
+            }
+            query1.push(obj);
             }
             
             //CHECK IF USER HAS PRIVILEDGES
@@ -262,6 +279,10 @@ exports.post=function(req, res){
                         });
                     }
                     else{
+                        if(query1.length!=0){
+                            query['$and']=query1;
+                        }
+                        console.log(query);
                         report.find(query,'-_id -report_hash -uploadedby -uploaderdesc -__v',function(err, doc){
                             if(err){
                                 console.log(err);

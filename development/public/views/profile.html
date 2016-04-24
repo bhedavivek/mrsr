@@ -7,11 +7,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span> 
                 </button>
+                <a href="#" ><div class="navbar-brand">Welcome User</div></a>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav navbar-left">
                     <li><a href="#">Home</a></li>
-                    <li><a href="#/profile">Profile</a></li> 
+                    <li class="active"><a href="#/profile">Profile</a></li> 
                     <li><a href="#/reports">Reports</a></li> 
                 </ul>
                 <form class="navbar-form navbar-right" >
@@ -30,12 +31,20 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span> 
                 </button>
+                <a href="#" ><div class="navbar-brand">Welcome Doctor</div></a>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav navbar-left">
                     <li><a href="#">Home</a></li>
-                    <li><a href="#/profile">Profile</a></li> 
-                    <li><a href="#/reports">Reports</a></li> 
+                    <li class="active"><a href="#/profile">Profile</a></li> 
+                    <li class="dropdown">
+                        <a href="#/reports" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Reports<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#/reports">View Reports</a></li>
+                            <li><a href="#/reports/search">Search</a></li>
+                            <li><a href="#/reports/new">New Report</a></li>
+                        </ul>
+                    </li> 
                 </ul>
                 <form class="navbar-form navbar-right" >
                     <div class="form-group">
@@ -48,7 +57,7 @@
 </div>
 <div class="jumbotron" ng-controller="profileController">
     <div class="container" ng-if="user">
-        <h1><span ng-if="$root['auth-token'].usertype=='user'">User</span><span ng-if="$root['auth-token'].usertype=='doctor'">doctor</span><span ng-if="$root['auth-token'].usertype=='hospital'">Institution</span><span> Profile</span></h1>
+        <h1><span ng-if="$root['auth-token'].usertype=='user'">User</span><span ng-if="$root['auth-token'].usertype=='doctor'">Doctor</span><span ng-if="$root['auth-token'].usertype=='hospital'">Institution</span><span> Profile</span></h1>
         <table class="table table-striped table-hover" style="max-width:80%;">
             <tr>
                 <td><span>Name : {{user.name.first_name}} </span><span ng-if="user.name.middle_name">{{user.name.middle_name}}</span><span> {{user.name.last_name}}</span></td>
@@ -57,10 +66,10 @@
                 <td>DOB : {{user.dob | date : 'dd/MM/yyyy'}}</td>
             </tr>
             <tr>
-                <td>Primary Contact No : {{user.contact.primary}}</td>
+                <td>Primary Contact No : {{user.contact_number.primary}}</td>
             </tr>
             <tr ng-if="user.contact.secondary">
-                <td >Secondary Contact No : {{user.contact.secondary}}</td>
+                <td >Secondary Contact No : {{user.contact_number.secondary}}</td>
             </tr>
             <tr>
                 <td>E-Mail ID : {{user.email}}</td>
