@@ -4,6 +4,7 @@ var router = express.Router();
 var isAuthenticated = require('../controllers/checkAuthenticationController');
 var userController = require('../controllers/userController');
 var decodeData = require('../controllers/decodeDataController');
+var doctorController = require('../controllers/doctorController');
 
 //AUTHENTICATE REQUESTS MADE TO API
 //router.use(isAuthenticated);
@@ -23,11 +24,9 @@ router.param('report_id', function(req, res, next, report_id){
 router.route('/user/:report_id')
     .get(userController.get);
 //Hospital Bulk Records End Points
-router.route('/reports')
-    .get(function(req, res){
-        res.status(901).json({'Success': true, 'Message':'Bulk Records need to be done'});
-    });
-router.route('')
+router.route('/doctor')
+    .get(doctorController.get);
+router.route('/*')
     .all(function(req, res){
         res.status(403);
         res.end();

@@ -2,9 +2,14 @@
 
 exports.get = function(req, res){
     var mongoose = require('mongoose');
-    var token = req.headers['auth-token'];
-    token = JSON.parse(token);
-    console.log(token);
+    var token;
+    try{
+        token = JSON.parse(req.headers['auth-token']);
+    }
+    catch(e){
+        res.status(400).json({"error":"Auth-Token invalid"});
+        return;
+    }
     var db = mongoose.createConnection("mongodb://127.0.0.1/hospital");
     db.on('error', function(){
         console.error.bind(console, 'connection error:');
@@ -75,22 +80,29 @@ exports.post=function(req, res){
         return;
     }
     var data = req.body.data;
-    console.log(token);
     switch(data.optype){
          //DOCTOR SEARCH
         case 'get':
             var query = {};
             
             //PATIENT AADHAAR ID IS COMPULSARY
-            if(!req.body.data.get.user_id){
-                res.status(200).json({'error': 'User ID required'});
-                return;
+            if(req.body.data.get.doctor_id){
+                query.doctor_registration_id = req.body.data.get.doctor_id;
             }
-            query.patient_aadhaar_id = req.body.data.get.user_id;
+            else{
+                if(!req.body.data.get.user_id){
+                    res.status(200).json({'error': 'User ID required'});
+                    return;
+                }
+            }
+            
             
             //SET SEARCH PARAMETERS
             if(req.body.data.get.report_title){
                 query.title = req.body.data.get.report_title;
+            }
+            if(req.body.data.get.doctor_id){
+                query.doctor_registration_id = req.body.data.get.doctor_id;
             }
             if(req.body.data.get.test_name){
                 console.log(req.body.data.get.test_name);
@@ -122,14 +134,17 @@ exports.post=function(req, res){
                 db.once('open', function(){
                     var reportSchema = require('../models/reportSchema');
                     var report = db.model('reports', reportSchema);
-                        report.find(query,'-_id -report_hash -uploadedby -uploaderdesc -__v',function(err, doc){
+                    if(req.body.data.get.report_id){
+                        query.report_id = req.body.data.get.report_id;
+                        report.findOne(query,'-_id -report_hash -uploadedby -uploaderdesc -__v',function(err,doc){
                             if(err){
                                 console.log(err);
                                 db.close();
                                 res.status(500).json({'success':false,'error':'Oops something went wrong'});
                             }
                             else{
-                                if(doc.length != 0){
+                                if(doc!= null){
+                                    console.log(doc);
                                     res.status(200).json({'result' : doc});
                                     db.close();
                                 }
@@ -139,7 +154,26 @@ exports.post=function(req, res){
                                 }
                             }
                         });
-                    
+                    }
+                    else{
+                        report.find(query,'-_id -report_hash -uploadedby -uploaderdesc -__v',function(err, doc){
+                            if(err){
+                                console.log(err);
+                                db.close();
+                                res.status(500).json({'success':false,'error':'Oops something went wrong'});
+                            }
+                            else{
+                                if(doc.length!=0){
+                                    res.status(200).json({'result' : doc});
+                                    db.close();
+                                }
+                                else{
+                                    res.status(204).json({'result' : 'No records in system'});
+                                    db.close();
+                                }
+                            }
+                        });
+                    }
                 });
             }
             //USER HAS INSUFFICIENT PRIVILEDGES

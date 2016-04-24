@@ -12,6 +12,16 @@ app.config(function($routeProvider){
         },
         templateUrl : '../views/login.html'
     })
+    .when('/profile',{
+        resolve : {
+            'check' : function($cookies, $location, $rootScope){
+                if($cookies.getObject('auth-token')){
+                    $location.path('/dashboard');
+                }
+            }  
+        },
+        templateUrl : '../views/profile.html'
+    })
     .when('/register/user',{
         templateUrl : '../views/registerUser.html'
     })
@@ -37,7 +47,7 @@ app.config(function($routeProvider){
                 if(!$cookies.getObject('auth-token')){
                     $location.path("/login");
                 }
-                else if($cookies.getObject('auth-token')!=null){
+                else if($cookies.getObject('auth-token')){
                     $rootScope['auth-token']=$cookies.getObject('auth-token');
                 }
             }  
@@ -67,7 +77,7 @@ app.config(function($routeProvider){
                 if(!$cookies.getObject('auth-token')){
                     $location.path("/login");
                 }
-                else if($cookies.getObject('auth-token')!=null){
+                else if($cookies.getObject('auth-token')){
                     $rootScope['auth-token']=$cookies.getObject('auth-token');
                 }
             }
