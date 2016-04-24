@@ -172,6 +172,7 @@ exports.get = function(req, res){
     });
 };
 exports.post=function(req, res){
+    console.log(req.body);
     var mongoose = require('mongoose');
     var token;
     try{
@@ -258,7 +259,15 @@ exports.post=function(req, res){
                     var reportSchema = require('../models/reportSchema');
                     var report = db.model('reports', reportSchema);
                     if(req.body.data.get.report_id){
-                        query.report_id = req.body.data.get.report_id;
+                        if(req.body.data.get.report_id){
+                            var obj = {};
+                            obj.report_id = req.body.data.get.report_id;
+                            query1.push(obj);
+                        }
+                        if(query1.length!=0){
+                            query['$and']=query1;
+                        }
+                        
                         report.findOne(query,'-_id -report_hash -uploadedby -uploaderdesc -__v',function(err,doc){
                             if(err){
                                 console.log(err);

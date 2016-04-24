@@ -1,14 +1,71 @@
-<div class="jumbotron">
+<div class="nav-container">
+    <div class="navbar navbar-default navbar-fixed-top" ng-if="$root['auth-token'].usertype == 'user'" ng-controller="loginController">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span> 
+                </button>
+                <a href="#" ><div class="navbar-brand">Welcome User</div></a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-left">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#/profile">Profile</a></li> 
+                    <li class="active"><a href="#/reports">Reports</a></li> 
+                </ul>
+                <form class="navbar-form navbar-right" >
+                    <div class="form-group">
+                        <input type="button" class="btn btn-default btn-sm" ng-click="logout()" value="Logout" style="margin-right:10px;"></input>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="navbar navbar-default navbar-fixed-top" ng-if="$root['auth-token'].usertype == 'doctor'" ng-controller="loginController">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span> 
+                </button>
+                <a href="#" ><div class="navbar-brand">Welcome Doctor</div></a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-left">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#/profile">Profile</a></li> 
+                    <li class="active dropdown">
+                        <a href="#/reports" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Reports<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#/reports">View Reports</a></li>
+                            <li><a href="#/reports/search">Search</a></li>
+                            <li><a href="#/reports/new">New Report</a></li>
+                        </ul>
+                    </li> 
+                </ul>
+                <form class="navbar-form navbar-right" >
+                    <div class="form-group">
+                        <input type="button" class="btn btn-default btn-sm" ng-click="logout()" value="Logout" style="margin-right:10px;"></input>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="jumbotron" ng-controller="searchReportController">
     <div class="container" ng-if="$root['auth-token'].usertype !='user'">
         <h1>Search</h1>
-        <ng-form role="form" class="col-md-10">
-            <table class="table table-striped table-hover">
+        <form role="form" class="col-md-10">
+            <table class="table table-striped table-hover" style="text-align:center;">
                 <tr class="form-group">
                     <td>
                         <label for="patient_id" class="control-label">Patient Aadhaar ID</label>
                     </td>
                     <td>
-                        <input type="text" ng-model="searchreports.user_id" id="patient_id" required></input>
+                        <input type="text" ng-model="sr.user_id" ng-bind="sr.user_id" id="patient_id" style="width:100%;" required></input>
                     </td>
                 </tr>
                 <tr>
@@ -16,18 +73,59 @@
                         <label for="report_title" class="control-label">Report Title</label>
                     </td>
                     <td>
-                        <input type="text" ng-model="searchreports.title" id="report_title" style="width:100%;" required></input>
+                        <input type="text" ng-model="sr.title" ng-model="sr.title" id="report_title" style="width:100%;"></input>
                     </td>
                 </tr>
                 <tr class="form-group">
                     <td>
-                        <label for="patient_id" class="control-label">Patient Aadhaar ID</label>
+                        <label for="patient_id" class="control-label">Test Name</label>
                     </td>
                     <td>
-                        <input type="text" ng-model="searchreports.user_id" id="patient_id" required></input>
+                        <input type="text" ng-model="sr.test_name" ng-model="sr.test_name" style="width:100%;" id="test_name"></input>
+                    </td>
+                </tr>
+                <tr class="form-group">
+                    <td>
+                        <label for="patient_id" class="control-label">Date</label>
+                    </td>
+                    <td>
+                        Between <input type="date" ng-model="sr.start_searchdate" ng-model="sr.start_searchdate" id="test_start_date" style="min-width:40%;" required></input>
+                        And <input type="date" ng-model="sr.end_searchdate" ng-model="sr.end_searchdate" id="test_end_date" style="min-width:40%;" required></input>
                     </td>
                 </tr>
             </table>
-        </ng-form>
+            <div class="form-group" >
+                <button type="button" class="col-md-4 btn btn-primary" ng-click="searchreport()" style="margin-right:2%;">Search</button>
+            </div>
+            <div class="form-group">
+                <button type="button" class="col-md-4 btn btn-primary" ng-click="searchreset()">Reset</button>
+            </div>
+        </form>
+        <div ng-if="searchresults"class="panel panel-success col-md-12" style="padding:0; margin-top:2%;">
+            <div class="panel-heading btn btn-block btn-info" data-target="#searchResults" data-toggle="collapse" style="text-align:left">
+                 <span class="glyphicon glyphicon-align-left glyphicon-chevron-down" aria-hidden="false"></span>
+                <span style="font-size:200%;">Results</span>
+            </div>
+            <div class="panel-body collapse in">
+                <table class="table table-striped table-hover ">
+                    <thead>
+                        <tr>
+                        <th>Report ID</th>
+                        <th>Report Title</th>
+                        <th>Report Date</th>
+                        <th>Link</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="report in searchresults">
+                            <td>{{report.report_id}}</td>
+                            <td>{{report.title}}</td>
+                            <td ng-bind="report.report_date | date: 'dd/MM/yyyy'"></td>
+                            <td><a ng-href="#/reports/{{report.patient_aadhaar_id}}/{{report.report_id}}">Full Report</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>

@@ -1,0 +1,52 @@
+<div class="jumbotron" ng-controller="searchReportController">
+    <div class="container" ng-if="$root['auth-token'].usertype !='user'">
+        <h1>Search</h1>
+        <form role="form" class="col-md-10">
+            
+                        <label for="patient_id" class="control-label">Patient Aadhaar ID</label>
+                        <input type="text" ng-model="sr" ng-bind="sr1" id="patient_id" style="width:100%;" required></input>{{sr1}}
+                  
+                        <label for="report_title" class="control-label">Report Title</label>
+                    
+                        <input type="text" ng-model="sr.title" id="report_title" style="width:100%;"></input>
+                    
+                
+                        <label for="patient_id" class="control-label">Test Name</label>
+                   
+                        <input type="text" ng-model="sr.test_name" style="width:100%;" id="test_name"></input>
+                    
+                        <label for="patient_id" class="control-label">Date</label>
+                    
+                        Between <input type="date" ng-model="sr.start_searchdate" id="test_start_date" style="min-width:40%;" required></input>
+                        And <input type="date" ng-model="sr.end_searchdate" id="test_end_date" style="min-width:40%;" required></input>
+                    
+            <button type="button" class="col-md-4 btn btn-primary" ng-click="searchreport()">Search</button>
+        </form>
+        <div class="panel panel-success col-md-12" style="padding:0; margin-top:2%;">
+            <div class="panel-heading btn btn-block btn-info" data-target="#searchResults" data-toggle="collapse" style="text-align:left">
+                 <span class="glyphicon glyphicon-align-left glyphicon-chevron-down" aria-hidden="false"></span>
+                <span style="font-size:200%;">Results</span>
+            </div>
+            <div class="panel-body collapse in">
+                <table class="table table-striped table-hover ">
+                    <thead>
+                        <tr>
+                        <th>Report ID</th>
+                        <th>Report Title</th>
+                        <th>Report Date</th>
+                        <th>Link</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="report in searchresults">
+                            <td>{{report.report_id}}</td>
+                            <td>{{report.title}}</td>
+                            <td ng-bind="report.report_date | date: 'dd/MM/yyyy'"></td>
+                            <td><a ng-href="#/reports/{{report.report_id}}">Full Report</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

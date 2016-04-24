@@ -35,13 +35,22 @@ angular.module('hospitalApp').controller('reportController',['$scope','$http','$
             
             var data1={};
             var data = {};
+            console.log($routeParams.user_id);
             console.log($routeParams.report_id);
             if($routeParams.report_id){
                 data.optype ='get';
-                data.get = {
-                    'user_id':'618715158116',
-                    'report_id': $routeParams.report_id
-                };
+                if($routeParams.user_id){
+                    data.get = {
+                        'user_id' : $routeParams.user_id,
+                        'report_id': $routeParams.report_id
+                    };
+                }
+                else{
+                    data.get = {
+                        'doctor_id':$rootScope['auth-token'].user_id,
+                        'report_id': $routeParams.report_id
+                    };
+                }
                 data1.data=data;
                 $http({
                     method: 'POST',
